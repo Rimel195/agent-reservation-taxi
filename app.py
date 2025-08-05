@@ -28,9 +28,8 @@ logging.basicConfig(level=logging.ERROR)   #configure le système de logging sta
 transformers_logging.set_verbosity_error() # configure le logging spécifique à la bibliothèque transformers de Hugging Face.
 
 
-
 HF_TOKEN = st.secrets["HF_TOKEN"]
-st.write("Token chargé :", HF_TOKEN[:10] + "..." if HF_TOKEN else "Aucun token")
+login(token=HF_TOKEN)
 
 # 1. Initialisation du modèle Mistral
 model_name = "mistralai/Mistral-7B-Instruct-v0.3"
