@@ -34,13 +34,14 @@ st.write("Token chargé :", HF_TOKEN[:10] + "..." if HF_TOKEN else "Aucun token"
 
 # 1. Initialisation du modèle Mistral
 model_name = "mistralai/Mistral-7B-Instruct-v0.3"
-tokenizer = AutoTokenizer.from_pretrained(model_name ,  use_auth_token=HF_TOKEN)
+tokenizer = AutoTokenizer.from_pretrained(model_name , trust_remote_code=True, use_auth_token=HF_TOKEN)
 model = AutoModelForCausalLM.from_pretrained(
     model_name,
     device_map="auto",          # Utilise le GPU automatiquement
     load_in_4bit=True,          # Quantification 4-bit
     torch_dtype=torch.float16,   # Optimisation pour GPU
-    use_auth_token=HF_TOKEN
+    use_auth_token=HF_TOKEN,
+    trust_remote_code=True
 )
 
 # Création du pipeline HF
