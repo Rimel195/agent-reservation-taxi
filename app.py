@@ -1,41 +1,14 @@
 import streamlit as st
 import json
-
 import gc
 import torch
-
-gc.collect()
-torch.cuda.empty_cache()
-
-!pip install langchain-community
-!pip install bitsandbytes
-!pip install accelerate
-!pip install transformers
-
-
-
 import os
 import logging
 from transformers import logging as transformers_logging
-
-#  Désactive le parallélisme des tokenizers (prétraitement des textes) de Hugging Face ,cela évite certains avertissements ou comportements indésirables
-
-os.environ["TOKENIZERS_PARALLELISM"] = "false"
-
-# Configurer le logging pour afficher que les erreurs
-logging.basicConfig(level=logging.ERROR)   #configure le système de logging standard de Python
-transformers_logging.set_verbosity_error() # configure le logging spécifique à la bibliothèque transformers de Hugging Face.
-
-
-
 import json
 from typing import Dict, Any, Tuple
 from datetime import datetime
 import re
-
-
-
-
 import torch
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
@@ -43,6 +16,19 @@ from langchain_community.llms import HuggingFacePipeline
 from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
 import json
 from huggingface_hub import login
+
+
+
+gc.collect()
+torch.cuda.empty_cache()
+#  Désactive le parallélisme des tokenizers (prétraitement des textes) de Hugging Face ,cela évite certains avertissements ou comportements indésirables
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
+# Configurer le logging pour afficher que les erreurs
+logging.basicConfig(level=logging.ERROR)   #configure le système de logging standard de Python
+transformers_logging.set_verbosity_error() # configure le logging spécifique à la bibliothèque transformers de Hugging Face.
+
+
+
 HF_TOKEN = "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"
 login(HF_TOKEN)
 # 1. Initialisation du modèle Mistral
