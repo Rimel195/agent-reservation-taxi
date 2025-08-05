@@ -29,8 +29,7 @@ transformers_logging.set_verbosity_error() # configure le logging spécifique à
 
 
 
-HF_TOKEN = "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"
-login(HF_TOKEN)
+login(token=st.secrets["HF_TOKEN"])
 # 1. Initialisation du modèle Mistral
 model_name = "mistralai/Mistral-7B-Instruct-v0.3"
 tokenizer = AutoTokenizer.from_pretrained(model_name ,  use_auth_token=HF_TOKEN)
