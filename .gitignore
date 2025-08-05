@@ -1,0 +1,13 @@
+# Fichiers secrets
+.streamlit/secrets.toml
+
+# Fichiers temporaires
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Fichiers d'environnement
+.env
+.venv
+env/
+venv/
