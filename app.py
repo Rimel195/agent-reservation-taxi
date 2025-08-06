@@ -28,7 +28,8 @@ logging.basicConfig(level=logging.ERROR)   #configure le système de logging sta
 transformers_logging.set_verbosity_error() # configure le logging spécifique à la bibliothèque transformers de Hugging Face.
 
 
-HF_TOKEN = st.secrets["HF_TOKEN"]
+#HF_TOKEN = st.secrets["HF_TOKEN"]
+HF_TOKEN = "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"
 login(token=HF_TOKEN)
 
 #teste d'acces au  HF_TOLEN 
