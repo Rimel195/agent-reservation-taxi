@@ -31,6 +31,16 @@ transformers_logging.set_verbosity_error() # configure le logging spécifique à
 HF_TOKEN = st.secrets["HF_TOKEN"]
 login(token=HF_TOKEN)
 
+#teste d'acces au  HF_TOLEN 
+from huggingface_hub import whoami
+try:
+    user_info = whoami(token=HF_TOKEN)
+    st.write("Connexion réussie avec Hugging Face ✅", user_info)
+except Exception as e:
+    st.error("Erreur de connexion à Hugging Face ❌")
+    st.error(e)
+
+
 # 1. Initialisation du modèle Mistral
 model_name = "mistralai/Mistral-7B-Instruct-v0.3"
 tokenizer = AutoTokenizer.from_pretrained(model_name , trust_remote_code=True, use_fast=False,token=HF_TOKEN)
