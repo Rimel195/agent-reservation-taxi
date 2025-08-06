@@ -29,22 +29,28 @@ transformers_logging.set_verbosity_error() # configure le logging spécifique à
 
 
 HF_TOKEN = st.secrets["HF_TOKEN"]
+# 1. Nettoyage des variables conflictuelles
+os.environ.pop("HF_TOKEN", None)  # Supprime la variable d'environnement
+os.environ.pop("HUGGINGFACE_TOKEN", None)  # Nettoie d'autres variables possibles
 
-
-# 1. Authentification stricte
+# 2. Vérification stricte du token
 if "HF_TOKEN" not in st.secrets:
-    st.error("Token manquant dans secrets.toml")
+    st.error("""
+    🔐 Token HF manquant. Ajoutez-le dans :
+    `.streamlit/secrets.toml` sous la forme :
+    HF_TOKEN = "votre_token_hf"
+    """)
     st.stop()
 
-login(token=st.secrets.HF_TOKEN, add_to_git_credential=False)
-
-# 2. Vérification de l'accès
+# 3. Authentification explicite
 try:
-    user = whoami()
-    st.sidebar.success(f"Connecté : {user['name']}")
-except:
-    st.error("Échec de l'authentification")
+    login(token=st.secrets["HF_TOKEN"], add_to_git_credential=False)
+    st.success("Authentification HF réussie !")
+except Exception as e:
+    st.error(f"Échec de l'authentification : {str(e)}")
     st.stop()
+
+
 
 # 1. Initialisation du modèle Mistral
 model_name = "mistralai/Mistral-7B-Instruct-v0.3"
