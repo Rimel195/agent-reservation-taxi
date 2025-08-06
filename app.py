@@ -15,7 +15,7 @@ from langchain.prompts import PromptTemplate
 from langchain_community.llms import HuggingFacePipeline
 from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
 import json
-from huggingface_hub import login
+from huggingface_hub import login , whoami
 
 
 
@@ -29,21 +29,22 @@ transformers_logging.set_verbosity_error() # configure le logging spécifique à
 
 
 HF_TOKEN = st.secrets["HF_TOKEN"]
-login(token=HF_TOKEN)
 
-#teste d'acces au  HF_TOLEN 
-from huggingface_hub import whoami
+
+# 1. Authentification stricte
+if "HF_TOKEN" not in st.secrets:
+    st.error("Token manquant dans secrets.toml")
+    st.stop()
+
+login(token=st.secrets.HF_TOKEN, add_to_git_credential=False)
+
+# 2. Vérification de l'accès
 try:
-    user_info = whoami(token=HF_TOKEN)
-    st.write("Connexion réussie avec Hugging Face ✅", user_info)
-except Exception as e:
-    st.error("Erreur de connexion à Hugging Face ❌")
-    st.error(e)
-
-
-# Supprimer le HF_TOKEN global si existant
-if "HF_TOKEN" in os.environ:
-    del os.environ["HF_TOKEN"]
+    user = whoami()
+    st.sidebar.success(f"Connecté : {user['name']}")
+except:
+    st.error("Échec de l'authentification")
+    st.stop()
 
 # 1. Initialisation du modèle Mistral
 model_name = "mistralai/Mistral-7B-Instruct-v0.3"
