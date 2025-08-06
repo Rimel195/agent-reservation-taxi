@@ -41,6 +41,10 @@ except Exception as e:
     st.error(e)
 
 
+# Supprimer le HF_TOKEN global si existant
+if "HF_TOKEN" in os.environ:
+    del os.environ["HF_TOKEN"]
+
 # 1. Initialisation du modèle Mistral
 model_name = "mistralai/Mistral-7B-Instruct-v0.3"
 tokenizer = AutoTokenizer.from_pretrained(model_name , trust_remote_code=True, use_fast=False,token=HF_TOKEN)
